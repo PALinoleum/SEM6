@@ -1,0 +1,11 @@
+﻿  TaskOne.cpp
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(26,28): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(34,30): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(35,31): warning C4244: =: преобразование "double" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(45,14): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(46,14): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(47,14): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(48,14): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(50,27): warning C4244: =: преобразование "int" в "float", возможна потеря данных
+C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\TaskOne\TaskOne.cpp(42,11): warning C4101: x: неиспользованная локальная переменная
+  TaskOne.vcxproj -> C:\Users\D4rkn\Desktop\Reliability theory\TaskOne\Debug\TaskOne.exe

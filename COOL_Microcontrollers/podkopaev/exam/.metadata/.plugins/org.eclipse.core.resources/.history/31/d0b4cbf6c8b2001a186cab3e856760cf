@@ -1,0 +1,35 @@
+#include <msp430.h> 
+#include "system_define.h"
+#include "system_variable.h"
+#include "function_prototype.h"
+#include "main.h"
+
+unsigned result = 0;
+
+void ADC_init(){
+    P6SEL |= BIT1;                       // Выбираем АЦП ADC1, к которому подключен датчик тока
+    ADC12CTL1 = SHP + CSTARTADD_0 + CONSEQ1; // таймер выборки и стартовый адрес преобразования - ADC12MEM0, повторяющийся одноканальный режим
+    ADC12MCTL0 = SREF_3 + INCH_1; // Выбор опорного напряжения и входного канала для adc12mem0
+
+    ADC12IE |= BIT1;                 // Включить прерывания от АЦП
+    ADC12CTL0 |= ENC;                // Разрешить преобразования
+    ADC12CTL0 |= ADC12ON + ADC12SC;            // Включить АЦП, старт преобразований
+}
+
+// Будем преобразовывать данные с датчика тока, потому что почему бы и нет
+void main(void) {
+    WDTCTL = WDTPW + WDTHOLD;
+    _enable_interrupt();
+    Init_System_Clock();
+    Init_System();
+    ADC_init();
+    while(1);
+}
+
+#pragma vector = ADC12_VECTOR
+__interrupt void ADC_interrupt(void){
+    ADC12CTL0 &= ~ENC;  // преобразование запрещено
+    result = ADC12MEM0; // сохраняем результат для чего нибудь прикольного
+    ADC12CTL0 |= ENC;   // преобразование разрешено
+}
+

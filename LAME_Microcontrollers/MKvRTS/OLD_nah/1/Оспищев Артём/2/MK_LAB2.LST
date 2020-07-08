@@ -1,0 +1,119 @@
+MCS-51 MACRO ASSEMBLER    MK_LAB2                                                                   09/06/;8   PAGE    1
+
+
+DOS 5.0 (038-N) MCS-51 MACRO ASSEMBLER, V2.3
+OBJECT MODULE PLACED IN C:\MK\MCS8052\MK_LAB2.OBJ
+ASSEMBLER INVOKED BY:  C:\MK\MCS8052\ASM51.EXE C:\MK\MCS8052\MK_LAB2.ASM
+                       
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 0
+0000 028120            2     ljmp start
+                       3     
+000B                   4     org 00bh
+000B 0D                5       inc r5        ; r5 - Q^P0Q^Q^Q^ Q^P5P:Q^P=P4Q^ (P?P> 50000 P<P:Q^)
+000C BD1403            6       cjne r5, #20, outp
+000F 7D00              7       mov r5, #0    ; P^P>P3P4P0 P?Q^P>P9P4Q^Q^ 20 Q^P0Q^Q^P5P9, Q^P1Q^P>Q^P8P< Q^Q^Q^Q^Q^P8P:
+0011 0A                8       inc r2        ; P8 Q^P2P5P;P8Q^P8P< P:P>P;P8Q^P5Q^Q^P2P> Q^P5P:Q^P=P4
+                       9     outp:
+0012 758C3C           10       mov th0, #3Ch     ; P^P0P?P8Q^Q^ P2 t0 15536,
+0015 758AB0           11       mov tl0, #0B0h    ; Q^Q^P>P1Q^ P4P> P?Q^P5Q^Q^P2P0P=P8Q^ P?Q^P>Q^P;P> 50000 P<P:Q^
+0018 C28D             12       clr tf0           ; P!P=Q^Q^P8P5 P1P8Q^P0 P?P5Q^P5P?P>P;P=P5P=P8Q^ t0
+001A 32               13       reti
+                      14     
+8100                  15     org 8100h
+                      16     
+                      17     print:
+                      18     ; P^Q^P2P>P4 Q^P0Q^P>P2 P2 1 P8 2 P;P0P<P?P0Q^
+8100 EC               19       mov A, r4
+8101 75F00A           20       mov B, #10
+8104 84               21       div AB        ; P^ a - P4P5Q^Q^Q^P:P8, P2 b - P5P4P8P=P8Q^Q^
+8105 4410             22       orl A, #10h   ; P!P2P5Q^P8Q^Q^ P2 P?P5Q^P2P>P9 P;P0P<P?P5, Q^Q^P0Q^Q^P8P9 P1P0P9Q^ = 1. P
+                             ^ P<P;P>P4Q^P5P< P4P5Q^Q^Q^P:P8
+8107 F0               23       movx @dptr, A
+8108 E5F0             24       mov A, B
+810A 4420             25       orl A, #20h   ; P!P2P5Q^P8Q^Q^ P2P> P2Q^P>Q^P>P9 P;P0P<P?P5, Q^Q^P0Q^Q^P8P9 P1P0P9Q^ = 2.
+                              P^ P<P;P>P4Q^P5P< P5P4P8P=P8Q^Q^
+810C F0               26       movx @dptr, A
+                      27     
+810D EA               28       mov A, r2
+810E 5401             29       anl A, #1b
+8110 700D             30       jnz skip
+                      31     ; P^P=P0P;P>P3P8Q^P=P> P4P;Q^ P<P8P=Q^Q^ P2 3 P8 4 P;P0P<P?P0Q^
+8112 EB               32       mov A, r3
+8113 75F00A           33       mov B, #10
+8116 84               34       div AB
+8117 4440             35       orl A, #40h
+8119 F0               36       movx @dptr, A
+811A E5F0             37       mov A, B
+811C 4480             38       orl A, #80h
+811E F0               39       movx @dptr, A
+                      40     skip:
+811F 22               41       ret
+                      42     
+                      43     start:
+8120 7D00             44       mov r5, #0
+8122 900003           45       mov dptr, #3
+8125 7482             46       mov A, #82h
+8127 F0               47       movx @dptr, A
+8128 900002           48       mov dptr, #2  ; P^P4Q^P5Q^ P?P>Q^Q^P0 C
+MCS-51 MACRO ASSEMBLER    MK_LAB2                                                                   09/06/;8   PAGE    2
+
+
+LOC  OBJ            LINE     SOURCE
+
+                      49     
+812B 7A00             50       mov r2, #0    ; P!P5P:Q^P=P4Q^
+812D 7B00             51       mov r3, #0    ; P^P8P=Q^Q^Q^
+812F 7C00             52       mov r4, #0    ; P'P0Q^Q^
+                      53     
+8131 D2AF             54       setb ea   ; P P0P7Q^P5Q^P8Q^Q^ P?Q^P5Q^Q^P2P0P=P8Q^
+8133 D2A9             55       setb et0  ; P P0P7Q^P5Q^P8Q^Q^ P?Q^P5Q^Q^P2P0P=P8P5 P?P5Q^P5P?P>P;P=P5P=P8Q^ P=Q^P;P5P2P>
+                             P3P> Q^P0P9P<P5Q^P0
+                      56       ;mov ie, #10010010b
+8135 758901           57       mov tmod, #00000001b  ; P^P5Q^P2Q^P9 Q^P5P6P8P< Q^P0P1P>Q^Q^ P=Q^P;P5P2P>P3P> Q^P0P9P<P5Q
+                             ^P0
+8138 758C3C           58       mov th0, #3Ch         ; P^P0P?P8Q^Q^ P2 t0 15536,
+813B 758AB0           59       mov tl0, #0B0h        ; Q^Q^P>P1Q^ P4P> P?Q^P5Q^Q^P2P0P=P8Q^ P?Q^P>Q^P;P> 50000 P<P:Q^
+813E D28C             60       setb tr0              ; P^P:P;Q^Q^P5P=P8P5 P=Q^P;P5P2P>P3P> Q^P0P9P<P5Q^P0
+                      61     overflow:
+                      62     ; P^Q^P2P>P4, P7P0Q^P5P< P8P7P<P5P=P5P=P8P5 P=Q^P6P=Q^Q^ P5P4P8P=P8Q^ P2Q^P5P<P5P=P8
+8140 128100           63       lcall print
+8143 BA3CFA           64       cjne r2, #60, overflow
+8146 0B               65       inc r3
+8147 7A00             66       mov r2, #0
+8149 BB3CF4           67       cjne r3, #60, overflow
+814C 0C               68       inc r4
+814D 7B00             69       mov r3, #0
+814F BC18EE           70       cjne r4, #24, overflow
+8152 7C00             71       mov r4, #0
+8154 80EA             72       jmp overflow
+                      73     end
+MCS-51 MACRO ASSEMBLER    MK_LAB2                                                                   09/06/;8   PAGE    3
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E     T Y P E   V A L U E       A T T R I B U T E S
+
+B. . . . .  D ADDR    00F0H   A       
+EA . . . .  B ADDR    00A8H.7 A       
+ET0. . . .  B ADDR    00A8H.1 A       
+OUTP . . .  C ADDR    0012H   A       
+OVERFLOW .  C ADDR    8140H   A       
+PRINT. . .  C ADDR    8100H   A       
+SKIP . . .  C ADDR    811FH   A       
+START. . .  C ADDR    8120H   A       
+TF0. . . .  B ADDR    0088H.5 A       
+TH0. . . .  D ADDR    008CH   A       
+TL0. . . .  D ADDR    008AH   A       
+TMOD . . .  D ADDR    0089H   A       
+TR0. . . .  B ADDR    0088H.4 A       
+
+
+REGISTER BANK(S) USED: 0
+
+ASSEMBLY COMPLETE, NO ERRORS FOUND

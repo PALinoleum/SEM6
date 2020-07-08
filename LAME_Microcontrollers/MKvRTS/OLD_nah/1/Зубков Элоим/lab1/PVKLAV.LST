@@ -1,0 +1,185 @@
+MCS-51 MACRO ASSEMBLER    PVKLAV                                                                    03/14/;8   PAGE    1
+
+
+DOS 5.0 (038-N) MCS-51 MACRO ASSEMBLER, V2.3
+OBJECT MODULE PLACED IN C:\MCS8052\PVKLAV.OBJ
+ASSEMBLER INVOKED BY:  C:\MCS8052\ASM51.EXE C:\MCS8052\PVKLAV.TXT
+                       
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 0h
+0000 7590FF            2             mov P1, #0ffh
+0003 7E00              3             mov R6, #0h
+0005 7B00              4             mov R3, #0h
+                       5             
+0007 7A00              6     mR2:    mov R2, #0h
+0009 7C00              7     mR4:    mov R4, #0b
+                       8     initP0:
+000B 74EF              9             mov A, #239 ; P^ = 11101111b
+000D F580             10             mov P0, A
+000F 7805             11             mov R0, #5h
+                      12     start:
+0011 208008           13             jb P0.0, mP0
+0014 EC               14             mov A, R4
+0015 C3               15             clr c
+0016 9401             16             subb A, #1
+0018 70ED             17             jnz mR2
+001A 80ED             18             jmp mR4    
+001C E580             19     mP0: mov A, P0
+001E 03               20             rr A
+001F 18               21             dec R0
+0020 F580             22             mov P0, A
+                      23             ;P>P1Q^P0P1P>Q^P:P0 Q^P>P;Q^P:P> P>P4P=P>P9 P=P0P6P0Q^P>P9 P:P;P0P2P8Q^P8
+0022 E590             24             mov A, P1
+0024 C3               25             clr c
+0025 94FE             26             subb A, #0feh
+0027 601E             27             jz continue
+0029 E590             28             mov A, P1
+002B C3               29             clr c
+002C 94FD             30             subb A, #0fdh
+002E 6017             31             jz continue
+0030 E590             32             mov A, P1
+0032 C3               33             clr c
+0033 94FB             34             subb A, #0fbh
+0035 6010             35             jz continue
+0037 E590             36             mov A, P1
+0039 C3               37             clr c
+003A 94F7             38             subb A, #0f7h
+003C 6009             39             jz continue
+003E E590             40             mov A, P1
+0040 C3               41             clr c
+0041 94EF             42             subb A, #0efh
+0043 6002             43             jz continue
+0045 80CA             44             jmp start
+                      45     continue:
+0047 7C01             46             mov R4, #1
+0049 E590             47             mov A, P1
+004B 64FF             48             xrl A,#0ffh     
+004D FF               49             mov R7,A                
+004E 7900             50             mov R1, #0h 
+MCS-51 MACRO ASSEMBLER    PVKLAV                                                                    03/14/;8   PAGE    2
+
+
+LOC  OBJ            LINE     SOURCE
+
+0050 E8               51             mov A, R0               
+0051 FD               52             mov R5, A               
+                      53             ;N column
+0052 EF               54             mov A,R7                
+0053 60BC             55             jz start
+0055 09               56     j1:     inc R1
+0056 75F002           57             mov B,#2h               
+0059 84               58             div AB
+005A 70F9             59             jnz j1
+005C E9               60             mov A, R1
+005D FE               61             mov R6, A       
+                      62             ;Q^P8Q^Q^P0 P8P;P8 P1Q^P:P2P0
+005E 9404             63             subb A, #4h
+0060 4005             64             jc digits 
+0062 020098           65             jmp liter 
+                      66     tostart:
+0065 80AA             67             jmp start
+                      68     digits:
+0067 ED               69             mov A, R5
+0068 9403             70             subb A, #3h
+006A 4020             71             jc digit
+006C EE               72             mov A, R6
+006D 9401             73             subb A, #1h
+006F 600C             74             jz digitA
+0071 EE               75             mov A, R6
+0072 9402             76             subb A, #2h
+0074 600C             77             jz digit0
+0076 EE               78             mov A, R6
+0077 9403             79             subb A, #3h
+0079 600C             80             jz digitB
+007B 8094             81             jmp start 
+007D 7441             82     digitA: mov A, #41h
+007F 0200A6           83             jmp print
+0082 7430             84     digit0: mov A, #30h
+0084 0200A6           85             jmp print
+0087 7442             86     digitB: mov A, #42h
+0089 0200A6           87             jmp print
+                      88     digit:
+008C 75F003           89             mov B, #3h
+008F ED               90             mov A, R5
+0090 14               91             dec A
+0091 A4               92             mul AB
+0092 2E               93             add A, R6
+0093 2430             94             add A, #30h
+0095 0200A6           95             jmp print
+                      96     liter:
+0098 75F002           97             mov B, #2h
+009B ED               98             mov A, R5
+009C 14               99             dec A
+009D A4              100             mul AB
+009E 2E              101             add A, R6
+009F 9403            102             subb A, #3h
+00A1 2442            103             add A, #42h
+00A3 0200A6          104             jmp print
+                     105     print:
+MCS-51 MACRO ASSEMBLER    PVKLAV                                                                    03/14/;8   PAGE    3
+
+
+LOC  OBJ            LINE     SOURCE
+
+00A6 FF              106             mov R7, A
+00A7 6A              107             xrl A, R2
+00A8 60BB            108             jz tostart
+00AA EF              109             mov A, R7
+00AB FA              110             mov R2, A               
+00AC 759862          111             mov SCON,#01100010b  ; P?P5Q^P2Q^P9 Q^P5P6P8P< Q^P0P1P>Q^Q^, P7P0P?Q^P5Q^P8Q^Q^ P?Q
+                             ^P8P5P< 
+00AF 438920          112             orl TMOD,#00100000b  ;P8Q^P?. P2P=Q^Q^Q^P5P=P=P8P9 P3-Q^, Q^P0P7Q^P5Q^P8Q^Q^ Q^P5P6
+                             P8P< P0P2Q^P>P?P>P4P3Q^Q^P7P:P8
+00B2 758CFD          113             mov TH0, #0fdh       ; P^P0Q^Q^Q^P>P8Q^Q^ Q^P:P>Q^P>Q^Q^Q^ P=P0 9600
+00B5 758AFD          114             mov TL0, #0fdh
+00B8 D28E            115             setb TR1  
+00BA F599            116             mov SBUF, A
+00BC C299            117             clr TI
+00BE 75990D          118             mov SBUF, #13
+00C1 C299            119             clr TI
+00C3 75990A          120             mov SBUF, #10
+00C6 C299            121             clr TI
+00C8 C28E            122             clr TR1
+00CA 0111            123             jmp start
+                     124     end
+MCS-51 MACRO ASSEMBLER    PVKLAV                                                                    03/14/;8   PAGE    4
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E     T Y P E   V A L U E       A T T R I B U T E S
+
+B. . . . .  D ADDR    00F0H   A       
+CONTINUE .  C ADDR    0047H   A       
+DIGIT. . .  C ADDR    008CH   A       
+DIGIT0 . .  C ADDR    0082H   A       
+DIGITA . .  C ADDR    007DH   A       
+DIGITB . .  C ADDR    0087H   A       
+DIGITS . .  C ADDR    0067H   A       
+INITP0 . .  C ADDR    000BH   A       
+J1 . . . .  C ADDR    0055H   A       
+LITER. . .  C ADDR    0098H   A       
+MP0. . . .  C ADDR    001CH   A       
+MR2. . . .  C ADDR    0007H   A       
+MR4. . . .  C ADDR    0009H   A       
+P0 . . . .  D ADDR    0080H   A       
+P1 . . . .  D ADDR    0090H   A       
+PRINT. . .  C ADDR    00A6H   A       
+SBUF . . .  D ADDR    0099H   A       
+SCON . . .  D ADDR    0098H   A       
+START. . .  C ADDR    0011H   A       
+TH0. . . .  D ADDR    008CH   A       
+TI . . . .  B ADDR    0098H.1 A       
+TL0. . . .  D ADDR    008AH   A       
+TMOD . . .  D ADDR    0089H   A       
+TOSTART. .  C ADDR    0065H   A       
+TR1. . . .  B ADDR    0088H.6 A       
+
+
+REGISTER BANK(S) USED: 0
+
+ASSEMBLY COMPLETE, NO ERRORS FOUND

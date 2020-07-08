@@ -1,0 +1,25 @@
+
+**** Build of configuration Debug for project MSP430-ADC+CURRENT ****
+
+"C:\\ti\\ccs1000\\ccs\\utils\\bin\\gmake" -k all 
+ 
+Building file: "../main.c"
+Invoking: MSP430 Compiler
+"C:/ti/ccs1000/ccs/tools/compiler/ti-cgt-msp430_20.2.0.LTS/bin/cl430" -vmsp --abi=eabi -Ooff --include_path="C:/ti/ccs1000/ccs/ccs_base/msp430/include" --include_path="C:/ti/ccs1000/ccs/tools/compiler/ti-cgt-msp430_20.2.0.LTS/include" --advice:power="all" -g --define=__MSP430F1611__ --diag_warning=225 --display_error_number --diag_wrap=off --printf_support=full --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+"../main.c", line 26: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+Finished building: "../main.c"
+ 
+Building target: "MSP430-ADC+CURRENT.out"
+Invoking: MSP430 Linker
+"C:/ti/ccs1000/ccs/tools/compiler/ti-cgt-msp430_20.2.0.LTS/bin/cl430" -vmsp --abi=eabi -Ooff --advice:power="all" -g --define=__MSP430F1611__ --diag_warning=225 --display_error_number --diag_wrap=off --printf_support=full -z -m"MSP430-ADC+CURRENT.map" --heap_size=100 --stack_size=500 --use_hw_mpy=16 --cinit_hold_wdt=on -i"C:/ti/ccs1000/ccs/ccs_base/msp430/include" -i"C:/ti/ccs1000/ccs/tools/compiler/ti-cgt-msp430_20.2.0.LTS/lib" -i"C:/ti/ccs1000/ccs/tools/compiler/ti-cgt-msp430_20.2.0.LTS/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="MSP430-ADC+CURRENT_linkInfo.xml" --rom_model -o "MSP430-ADC+CURRENT.out" "./I2C.obj" "./analogsensors.obj" "./keys.obj" "./lcd.obj" "./leds.obj" "./main.obj" "./msp430_initialize_unused_interrrupt_vectors.obj" "./sysfunc.obj" "./uart.obj" "../lnk_msp430f1611.cmd"  -llibc.a 
+<Linking>
+error #10056: symbol "__TI_int07" redefined: first defined in "./main.obj"; redefined in "./msp430_initialize_unused_interrrupt_vectors.obj"
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 1 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+error #10010: errors encountered during linking; "MSP430-ADC+CURRENT.out" not built
+ 
+>> Compilation failure
+makefile:148: recipe for target 'MSP430-ADC+CURRENT.out' failed
+gmake: *** [MSP430-ADC+CURRENT.out] Error 1
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****

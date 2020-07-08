@@ -1,0 +1,93 @@
+    mov R2, #150 ;15 сек
+    mov R3, #75 ;50% шим
+    mov R7, 0; обнуляем глобальный счётчик
+
+    cjne R5, #1, $
+
+
+    mov R4, #75
+    cycle_2uch:
+        mov R2, #6 ;0.6 сек
+        mov A, R4
+        mov R3, A
+        mov R7, #0; обнуляем глобальный счётчик 
+        cjne R5, #1, $
+        inc R4
+    cjne R4, #101, cycle_2uch
+
+    mov R4, #100
+    cycle_2uch:
+        mov R2, #6 ;0.6 сек
+        mov A, R4
+        mov R3, A
+        mov R7, #0; обнуляем глобальный счётчик
+        cjne R5, #1, $
+        dec R4
+    cjne R4, #101, cycle_2uch
+        
+    mov R2, #150 ;15 сек
+    mov R3, #75 ;50% шим
+    mov R7, #0; обнуляем глобальный счётчик
+    cjne R5, #1, $
+
+
+
+
+    mov R2, #100 ;5 сек
+    mov R3, #75 ;50% шим
+    mov R7, #0; обнуляем глобальный счётчик
+    mov R0, #0
+    mov R5, #0
+    cjne R5, #1, $
+
+
+
+    prer:
+    clr tr0
+    cjne R5, #0, exit ;если стоит флаг - выход
+    
+    mov A, R2 ;проверка глобального времени
+    cjne A, 7, next
+        mov R5, #1;установка флага выхода
+        jmp exit
+    
+    next:
+    cjne R1, #0, cycle2 ;переход к состоянию шим в периоде
+	
+    cycle1: ;цикл включения вперёд
+        mov A, R3 ;время 1 полупериода
+        cjne A, 0, move ;сравнение со значением R0
+
+    mov R1, #1 ;уставнока режима 1
+
+    cycle2: ;цикл включения назад
+        cjne R0, #100, reversMove;время 2 полупериода
+    
+    mov R1, #0 ;возвращаем в начало
+    mov R0, #0
+    inc R7 ;счётчик глобального времени увеличивается каждые 100 мс
+    jmp exit
+
+    move: 
+	setb P1.5
+	setb P1.7
+    clr P1.4
+	clr P1.6
+	inc R0 ;увеличиваем внутренний счетчик
+    jmp exit
+
+
+    reversMove:
+    
+    setb P1.4
+	setb P1.6
+	clr P1.5
+	clr P1.7
+    inc R0 ;увеличиваем внутренний счетчик
+    jmp exit
+
+exit:
+    setb tr0
+	reti
+
+end

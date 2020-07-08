@@ -1,0 +1,26 @@
+#include <msp430.h> 
+#include "stdio.h"
+#include "system_define.h"
+#include "system_variable.h"
+#include "function_prototype.h"
+#include "main.h"
+
+void main(void) {
+    WDTCTL = WDTPW|WDTHOLD;
+    Init_System_Clock();
+    Init_System();
+    _enable_interrupt();
+    LCD_init();
+    unsigned res, last_res = 0;
+    char message[12];
+    while(1){
+        message = R22_get_resistance();
+        if (res != last_res){
+            LCD_clear();
+            message = sprintf ("%u", res);
+            LCD_message(message);
+            last_res = res;
+        }
+        wait_1ms(100);
+    }
+}

@@ -1,0 +1,113 @@
+MCS-51 MACRO ASSEMBLER    CLOCK                                                                     04/18/;8   PAGE    1
+
+
+DOS 5.0 (038-N) MCS-51 MACRO ASSEMBLER, V2.3
+OBJECT MODULE PLACED IN C:\MCS8052\CLOCK.OBJ
+ASSEMBLER INVOKED BY:  C:\MCS8052\ASM51.EXE C:\MCS8052\CLOCK.ASM
+                       
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 0
+0000 028120            2     ljmp start
+                       3     
+000B                   4     org 00bh
+000B 0D                5             inc R5
+000C BD1403            6             cjne R5, #20, outp
+000F 7D00              7             mov r5, #0
+0011 0A                8             inc r2
+                       9     outp:
+0012 758C3C           10             mov th0, #3Ch
+0015 758AB0           11             mov tl0, #0B0h
+0018 C28D             12             clr tf0
+001A 32               13             reti
+                      14     
+8100                  15     org 8100h
+                      16     
+                      17     print:
+8100 EC               18             mov A, R4
+8101 75F00A           19             mov B, #10
+8104 84               20             div AB
+8105 4410             21             orl A, #10h
+8107 F0               22             movx @DPTR, A
+8108 E5F0             23             mov A, B
+810A 4420             24             orl A, #20h
+810C F0               25             movx @DPTR, A
+                      26     
+810D EA               27             mov A, R2
+810E 5401             28             anl A, #1b
+8110 700D             29             jnz skip
+                      30     
+8112 EB               31             mov A, R3
+8113 75F00A           32             mov B, #10
+8116 84               33             div AB
+8117 4440             34             orl A, #40h
+8119 F0               35             movx @DPTR, A
+811A E5F0             36             mov A, B
+811C 4480             37             orl A, #80h
+811E F0               38             movx @DPTR, A
+                      39     skip:
+811F 22               40             ret
+                      41     
+                      42     start:
+8120 7D00             43     mov R5, #0
+8122 900003           44     mov DPTR, #3
+8125 7482             45     mov A, #82h
+8127 F0               46     movx @DPTR, A
+8128 900002           47     mov DPTR, #2
+                      48     
+812B 7A00             49     mov R2, #0
+812D 7B00             50     mov R3, #0
+MCS-51 MACRO ASSEMBLER    CLOCK                                                                     04/18/;8   PAGE    2
+
+
+LOC  OBJ            LINE     SOURCE
+
+812F 7C00             51     mov R4, #0
+                      52     
+8131 D2AF             53     setb ea
+8133 D2A9             54     setb et0
+8135 758901           55     mov tmod, #00000001b
+8138 758C3C           56     mov th0, #3Ch
+813B 758AB0           57     mov tl0, #0B0h
+813E D28C             58     setb tr0
+                      59     overflow:
+8140 128100           60     lcall print
+8143 BA3CFA           61     cjne r2, #60, overflow
+8146 0B               62     inc r3
+8147 7A00             63     mov r2, #0
+8149 BB3CF4           64     cjne r3, #60, overflow
+814C 0C               65     inc r4
+814D 7B00             66     mov r3, #0
+814F BC18EE           67     cjne r4, #24, overflow
+8152 7C00             68     mov r4, #0
+8154 80EA             69     jmp overflow
+                      70     
+                      71     end
+MCS-51 MACRO ASSEMBLER    CLOCK                                                                     04/18/;8   PAGE    3
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E     T Y P E   V A L U E       A T T R I B U T E S
+
+B. . . . .  D ADDR    00F0H   A       
+EA . . . .  B ADDR    00A8H.7 A       
+ET0. . . .  B ADDR    00A8H.1 A       
+OUTP . . .  C ADDR    0012H   A       
+OVERFLOW .  C ADDR    8140H   A       
+PRINT. . .  C ADDR    8100H   A       
+SKIP . . .  C ADDR    811FH   A       
+START. . .  C ADDR    8120H   A       
+TF0. . . .  B ADDR    0088H.5 A       
+TH0. . . .  D ADDR    008CH   A       
+TL0. . . .  D ADDR    008AH   A       
+TMOD . . .  D ADDR    0089H   A       
+TR0. . . .  B ADDR    0088H.4 A       
+
+
+REGISTER BANK(S) USED: 0
+
+ASSEMBLY COMPLETE, NO ERRORS FOUND

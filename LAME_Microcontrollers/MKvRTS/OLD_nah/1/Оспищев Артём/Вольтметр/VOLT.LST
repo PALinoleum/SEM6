@@ -1,0 +1,97 @@
+MCS-51 MACRO ASSEMBLER    VOLT                                                                      04/25/;8   PAGE    1
+
+
+DOS 5.0 (038-N) MCS-51 MACRO ASSEMBLER, V2.3
+OBJECT MODULE PLACED IN C:\MCS8052\VOLT.OBJ
+ASSEMBLER INVOKED BY:  C:\MCS8052\ASM51.EXE C:\MCS8052\VOLT.ASM
+                       
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 0h
+0000 02812D            2     ljmp start
+                       3     
+8100                   4     org 8100h
+                       5     print:
+8100 900002            6             mov DPTR, #2
+8103 F8                7             mov R0, A ; jnkhweqrbn s.e. m`op^femh^
+8104 5480              8             anl A, #80h ; gm`j
+                       9             
+8106 7005             10             jnz plus
+                      11             
+8108 740B             12             mov A, #11; minus code
+810A 02810F           13             jmp skip  
+                      14     plus:
+810D 740A             15             mov A, #10
+                      16     skip:
+810F 4410             17             orl A, #10h
+8111 F0               18             movx @DPTR, A   
+                      19             
+8112 E8               20             mov A, R0
+8113 547F             21             anl A, #7Fh
+8115 23               22             rl A
+                      23     
+8116 75F032           24             mov B, #50
+8119 84               25             div AB
+811A 4420             26             orl A, #20h
+811C F0               27             movx @DPTR, A
+                      28     
+811D E5F0             29             mov A, B
+811F 75F005           30             mov B, #5
+8122 84               31             div AB
+8123 4440             32             orl A, #40h
+8125 F0               33             movx @DPTR, A
+                      34     
+8126 E5F0             35             mov A, B
+8128 23               36             rl A
+8129 4480             37             orl A, #80h
+812B F0               38             movx @DPTR, A
+                      39             
+812C 22               40             ret
+                      41     start:
+812D D290             42     setb P1.0
+812F 900003           43     mov DPTR, #3
+8132 7482             44     mov A, #82h
+8134 F0               45     movx @DPTR, A
+                      46     
+8135 900000           47     mov DPTR, #0
+8138 7410             48     mov A, #10000b
+813A F0               49     movx @DPTR, A
+                      50     
+MCS-51 MACRO ASSEMBLER    VOLT                                                                      04/25/;8   PAGE    2
+
+
+LOC  OBJ            LINE     SOURCE
+
+                      51     cycle:
+813B C290             52             clr P1.0
+813D 2091FD           53             jb P1.1, $
+8140 900001           54             mov DPTR, #1
+8143 E0               55             movx A, @DPTR
+8144 128100           56             lcall print
+8147 D290             57             setb P1.0
+8149 80F0             58             jmp cycle
+                      59     ; E1 = pa.4
+                      60     ; 1 = 40 mV 
+                      61     end
+MCS-51 MACRO ASSEMBLER    VOLT                                                                      04/25/;8   PAGE    3
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E     T Y P E   V A L U E       A T T R I B U T E S
+
+B. . . . .  D ADDR    00F0H   A       
+CYCLE. . .  C ADDR    813BH   A       
+P1 . . . .  D ADDR    0090H   A       
+PLUS . . .  C ADDR    810DH   A       
+PRINT. . .  C ADDR    8100H   A       
+SKIP . . .  C ADDR    810FH   A       
+START. . .  C ADDR    812DH   A       
+
+
+REGISTER BANK(S) USED: 0
+
+ASSEMBLY COMPLETE, NO ERRORS FOUND

@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "SysAnalisys5", "SysAnalisys5\SysAnalisys5.pyproj", "{74835A19-4342-45A0-B99B-CF0F2B2C8960}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74835A19-4342-45A0-B99B-CF0F2B2C8960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74835A19-4342-45A0-B99B-CF0F2B2C8960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3773E23-3D3B-49ED-ADC8-F270F69619AC}
+	EndGlobalSection
+EndGlobal

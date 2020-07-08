@@ -1,0 +1,9 @@
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\bin\Release\UdpChat.exe.config
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\bin\Release\UdpChat.exe
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\bin\Release\UdpChat.pdb
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\obj\Release\UdpChat.csprojAssemblyReference.cache
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\obj\Release\UdpChat.Form1.resources
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\obj\Release\UdpChat.Properties.Resources.resources
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\obj\Release\UdpChat.csproj.GenerateResource.cache
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\obj\Release\UdpChat.exe
+C:\Users\D4rkn\source\repos\UdpChat\UdpChat\obj\Release\UdpChat.pdb

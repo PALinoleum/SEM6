@@ -1,0 +1,199 @@
+MCS-51 MACRO ASSEMBLER    PART6                                                                     05/30/;8   PAGE    1
+
+
+DOS 5.0 (038-N) MCS-51 MACRO ASSEMBLER, V2.3
+OBJECT MODULE PLACED IN C:\MCS8052\PART6.OBJ
+ASSEMBLER INVOKED BY:  C:\MCS8052\ASM51.EXE C:\MCS8052\PART6.ASM
+                       
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ; A - number of rotations
+                       2     ;R0 - 10 ms
+                       3     ;R1 - 1 sec
+                       4     ;R2 - 30 sec
+                       5     ;R3 - speed
+                       6     ;R4 - x
+                       7     ;R5 - x counter;
+                       8     ;R6 - save A
+                       9     ;R7 - switch
+                      10     
+0000                  11     org 0h
+0000 02815D           12     ljmp start
+                      13     
+000B                  14     org 0bh 
+                      15     ;counter
+000B 32               16     reti
+                      17     
+001B                  18     org 1bh ;timer
+                      19     
+001B 028100           20     jmp areas
+                      21     
+8100                  22     org 8100h
+                      23     
+                      24     areas:
+8100 BF0135           25     cjne R7, #1, tim1
+                      26     
+                      27     tim2:
+                      28             ;clr p1.5
+                      29             ;clr p1.7
+                      30             ;cjne R3, #2, checkA2
+                      31             ;mov R3, #0
+                      32             ;setb p1.5
+                      33             ;setb p1.7
+                      34     
+8103 0D               35             inc R5  
+8104 FE               36             mov R6, A       
+8105 EC               37             mov A, R4       
+8106 C3               38             clr C   
+8107 9D               39             subb A, R5      
+8108 5480             40             anl A, #80h
+810A 6013             41             jz checkA2
+810C D295             42             setb p1.5
+810E D297             43             setb p1.7
+8110 BD1F0C           44             cjne R5, #31, checkA2
+8113 7D00             45             mov R5, #0
+                      46     
+8115 0B               47             inc R3  
+8116 BB0206           48             cjne R3, #2, checkA2
+8119 7B00             49             mov R3, #0
+                      50     
+MCS-51 MACRO ASSEMBLER    PART6                                                                     05/30/;8   PAGE    2
+
+
+LOC  OBJ            LINE     SOURCE
+
+811B C295             51             clr p1.5
+811D C297             52             clr p1.7
+                      53     checkA2:        
+                      54             
+811F EE               55             mov A, R6       
+8120 04               56             inc A
+8121 B4280E           57             cjne A, #40, skip2
+8124 7400             58             mov A, #0
+8126 08               59             inc R0
+8127 B86408           60             cjne R0, #100, skip2
+812A 7800             61             mov R0, #0
+812C 09               62             inc R1
+812D 1C               63             dec R4
+812E B91E01           64             cjne R1, #30, skip2
+8131 0A               65             inc R2
+                      66             skip2:
+8132 758C05           67             mov th0, #5
+8135 C28D             68             clr tf0
+8137 32               69             reti
+                      70     
+                      71             tim1:
+8138 0B               72             inc R3  
+8139 C295             73             clr p1.5
+813B C297             74             clr p1.7
+813D BB0306           75             cjne R3, #3, checkA1
+8140 7B00             76             mov R3, #0
+8142 D295             77             setb p1.5
+8144 D297             78             setb p1.7
+                      79             checkA1:        
+8146 04               80                     inc A
+8147 B4280D           81                     cjne A, #40, skip1
+814A 7400             82                     mov A, #0
+814C 08               83                     inc R0
+814D B86407           84                     cjne R0, #100, skip1
+8150 7800             85                     mov R0, #0
+8152 09               86                     inc R1
+8153 B91F01           87                     cjne R1, #31, skip1
+8156 0A               88                     inc R2
+                      89             skip1:
+8157 758C05           90                     mov th0, #5
+815A C28D             91                     clr tf0
+815C 32               92                     reti
+                      93     
+                      94     start:
+815D D297             95             setb p1.7
+815F D296             96             setb p1.6
+8161 D295             97             setb p1.5
+8163 D294             98             setb p1.4
+                      99     
+8165 900003          100             mov DPTR, #3
+8168 7482            101             mov A, #82h
+816A F0              102             movx @DPTR, A
+816B E589            103             mov A, TMOD
+816D 4407            104             orl A, #00000111b
+816F F589            105             mov TMOD, A
+MCS-51 MACRO ASSEMBLER    PART6                                                                     05/30/;8   PAGE    3
+
+
+LOC  OBJ            LINE     SOURCE
+
+                     106     
+8171 D2AF            107             setb ea
+8173 D2A9            108             setb et0
+8175 D2AB            109             setb et1
+                     110     
+8177 C295            111             clr p1.5
+8179 C297            112             clr p1.7
+                     113     
+817B 7F00            114             mov R7, #0
+                     115     
+817D 758A82          116             mov tl0, #130
+8180 758C05          117             mov th0, #5
+                     118     
+8183 7400            119             mov A, #0
+8185 7800            120             mov R0, #0
+8187 7900            121             mov R1, #0      
+8189 7A00            122             mov R2, #0
+818B 7B00            123             mov R3, #0
+818D D28E            124             setb tr1
+                     125             cycle1:
+818F BA01FD          126                     cjne R2, #1, $
+                     127     
+8192 7F01            128             mov R7, #1
+                     129     
+8194 758A82          130             mov tl0, #130
+8197 758C05          131             mov th0, #5
+                     132     
+819A 7400            133             mov A, #0
+819C 7800            134             mov R0, #0
+819E 7900            135             mov R1, #0
+81A0 7A00            136             mov R2, #0
+81A2 7B00            137             mov R3, #0
+81A4 7C1E            138             mov R4, #30     
+81A6 7D00            139             mov R5, #0
+81A8 D28E            140             setb tr1
+                     141             cycle2:
+81AA BA01FD          142                     cjne R2, #1, $
+                     143     
+81AD D295            144             setb p1.5
+81AF D297            145             setb p1.7
+                     146     end
+MCS-51 MACRO ASSEMBLER    PART6                                                                     05/30/;8   PAGE    4
+
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E     T Y P E   V A L U E       A T T R I B U T E S
+
+AREAS. . .  C ADDR    8100H   A       
+CHECKA1. .  C ADDR    8146H   A       
+CHECKA2. .  C ADDR    811FH   A       
+CYCLE1 . .  C ADDR    818FH   A       
+CYCLE2 . .  C ADDR    81AAH   A       
+EA . . . .  B ADDR    00A8H.7 A       
+ET0. . . .  B ADDR    00A8H.1 A       
+ET1. . . .  B ADDR    00A8H.3 A       
+P1 . . . .  D ADDR    0090H   A       
+SKIP1. . .  C ADDR    8157H   A       
+SKIP2. . .  C ADDR    8132H   A       
+START. . .  C ADDR    815DH   A       
+TF0. . . .  B ADDR    0088H.5 A       
+TH0. . . .  D ADDR    008CH   A       
+TIM1 . . .  C ADDR    8138H   A       
+TIM2 . . .  C ADDR    8103H   A       
+TL0. . . .  D ADDR    008AH   A       
+TMOD . . .  D ADDR    0089H   A       
+TR1. . . .  B ADDR    0088H.6 A       
+
+
+REGISTER BANK(S) USED: 0
+
+ASSEMBLY COMPLETE, NO ERRORS FOUND
